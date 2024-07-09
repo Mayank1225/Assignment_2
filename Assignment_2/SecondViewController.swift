@@ -60,7 +60,7 @@ class SecondViewController: UIViewController, UITableViewDelegate, UITableViewDa
         
         let applyAction = UIAlertAction(title: "Apply", style: .default) { _ in
             if let textField = alertController.textFields?.first, let value = textField.text {
-                if value.count == 7, let intValue = Int(value) {
+                if value.count == 7{
                     self.addItemInDataList(Id: value)
                 } else {
                     let alert = UIAlertController(title: "Try Again", message: "Please Enter Valid Id", preferredStyle: .alert)
@@ -87,14 +87,20 @@ class SecondViewController: UIViewController, UITableViewDelegate, UITableViewDa
         let index = string.index(string.startIndex, offsetBy: 4)
         return Int(String(string[index]))
     }
-
+    func checkIndex(index: Int) -> Int {
+        if index > 0 {
+            return index - 1;
+        }
+        return 0;
+    }
+    
     func addItemInDataList(Id: String) {
         let newItem = Datalist(Name: "IBM TABLETS", ImgName: "img1", detail: "Id: \(Id)", price: "$999.99")
         if let index = getFifthNumber(from: Id) {
-            data.insert(newItem, at: min(index - 1, data.count))
+            data.insert(newItem, at: min(checkIndex(index: index), data.count))
             table.reloadData()
         } else {
-            print("Invalid ID")
+            print("Invalid ID must be 7 digit valid number")
         }
     }
 }
